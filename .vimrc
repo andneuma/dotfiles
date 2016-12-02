@@ -1,6 +1,10 @@
 set nocompatible
+if has("autocmd")
+    filetype indent plugin on
+endif
 filetype off
 set rtp+=~/.vim/bundle/vundle/
+runtime macros/matchit.vim
 call vundle#rc()
 
 " This is the Vundle package, which can be found onHub.
@@ -8,8 +12,8 @@ call vundle#rc()
 " 'user/repository' format
 Plugin 'gmarik/vundle'
 
-" Line numbering
-Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+" CamelCaseMoving
+Plugin 'bkad/CamelCaseMotion'
 
 " Markdown support
 Plugin 'Markdown'
@@ -27,16 +31,25 @@ Plugin 'flazz/vim-colorschemes'
 " cTags
 Bundle 'craigemery/vim-autotag'
 
+" Tab completion
+Plugin 'ervandew/supertab'
+Plugin 'Valloric/YouCompleteMe'
+
 " Ruby stuff 
+Plugin 'thoughtbot/vim-rspec'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'rails.vim'
+Plugin 'kana/vim-textobj-user.git'
+Plugin 'nelstrom/vim-textobj-rubyblock'
 Plugin 'vroom'
 Plugin 'tpope/vim-endwise'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 Plugin 'ngmy/vim-rubocop'
 
 Plugin 'auto-pairs'
+
+Plugin 'tmhedberg/matchit'
 
 " Multiple cursors
 Plugin 'vim-multiple-cursors'
@@ -55,13 +68,14 @@ set wildmode=longest,list,full
 set wildmenu
 
 " Tabswidth
-set softtabstop=2
 set shiftwidth=2
 set tabstop=2
+set expandtab
 
 " Highlight search results
 set ignorecase hlsearch
 set incsearch
+nmap <leader>h :nohlsearch<cr>
 
 """ Enable lazy line move
 " Normal mode
@@ -93,10 +107,12 @@ nmap <leader>d yyp
 vmap <leader>d y'>p
 imap <C-d> <ESC>yypi
 
-" Open NERDTree
+" NERDTree
+let NERDTreeShowHidden=1
 nmap <leader>ne :NERDTreeToggle<cr>
 
 " ctrlP stuff
+map <LEADER>p :CtrlPClearCache<CR>
 set wildignore+=*//*,*/.hg/*,*/.svn/*
 
 " Find mapping
@@ -119,5 +135,32 @@ let g:vimrubocop_keymap = 0
 nmap <Leader>r :RuboCop<CR>
 
 " Tabbing and windows
-map <LEADER>t :tabe<RETURN>
-map <LEADER>sv :sv<RETURN>
+map <LEADER>t :tabe<CR>
+map <LEADER>sv :sv<CR>
+
+" RSpec
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
+" Tab completion
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" move through method definitions
+map m ]m
+map M [m
+
+" Remap split close
+map <leader>q <c-w><c-q>
+
+" Set shortcut for vimrc editing
+map <leader>v :tabnew ~/.vimrc<CR>
