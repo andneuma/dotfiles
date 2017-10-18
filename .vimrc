@@ -2,15 +2,13 @@ set nocompatible
 if has("autocmd")
     filetype indent plugin on
 endif
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-runtime macros/matchit.vim
-call vundle#rc()
 
-" This is the Vundle package, which can be found onHub.
-" ForHub repos, you specify plugins using the
-" 'user/repository' format
-Plugin 'gmarik/vundle'
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
+
+" PLUGINS
+Plugin 'VundleVim/Vundle.vim'
 
 " CamelCaseMoving
 Plugin 'bkad/CamelCaseMotion'
